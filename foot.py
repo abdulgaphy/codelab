@@ -29,64 +29,88 @@ def header():
        
 url = str(sys.argv[1])
 def httpHeader():
-	#req = os.system("curl http://api.hackertarget.com/httpheaders/?q=" + url)
-	#headers = ['Server', 'x-runtime','user-agent','content-type','content-encoding', 'Via', 'X-Powered-By', 'X-Country-Code']
-	#for header in headers:
-	#	try:
-	#		req = os.system("curl http://api.hackertarget.com/httpheaders/?q=" + url)
-
-	#		print '%s: %s' % (header, req)
-	#	except Exception, error:
-	#		print '%s: Not found' % header
-	os.system("curl http://api.hackertarget.com/httpheaders/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/httpheaders/?q=" + url)
+	return base
 def ip():
-	os.system("ping " + url)
+	base = os.system("ping " + url)
+	return base
 # Reverse ip lookup
 def reverseHackTarget():
-
-	os.system("curl http://api.hackertarget.com/reverseiplookup/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/reverseiplookup/?q=" + url)
+	return base
 # traceroute
 def traceRoute():
-
-	os.system("curl http://api.hackertarget.com/mtr/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/mtr/?q=" + url)
+	return base
 # wHOIS LOokup
 def whoIs():
-
-	os.system("curl http://api.hackertarget.com/whois/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/whois/?q=" + url)
+	return base
 # DNS Lookup
 def dns():
-
-	os.system("curl http://api.hackertarget.com/dnslookup/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/dnslookup/?q=" + url)
+	return base
 # Reverse DNS lookup
 def reverseDns():
-
-	os.system("curl http://api.hackertarget.com/reversedns/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/reversedns/?q=" + url)
+	return base
 #GeoIP Lookup
 def geoIp():
-
-	os.system("curl http://api.hackertarget.com/geoip/?q=" + url)
+	base = os.system("curl http://api.hackertarget.com/geoip/?q=" + url)
+	return base
 # port scan
 def nmap():
-
-	os.system("curl http://api.hackertarget.com/nmap/?q=" + url)
-
+	base = os.system("curl http://api.hackertarget.com/nmap/?q=" + url)
+	return base
 def findSharedServer():
-
-	os.system("curl http://api.hackertarget.com/findshareddns/?q=" + url)
-
+	base = os.system("curl http://api.hackertarget.com/findshareddns/?q=" + url)
+	return base
 def pageLinks():
+	base = os.system("curl http://api.hackertarget.com/pagelinks/?q=" + url)
+	return base
+# Generating reports in HTML format
+def generateHTML():
+	create = """<!DOCTYPE html>
+<html>
+<head>
+  <title>R3C0N1Z3R Report</title>
+</head>
+<body>
+ <center> <h1>R3C0N1Z3R Report - [{}]</h1></center>
+ <strong>HTTP header information</strong>
+	<pre>{}</pre>
+    <strong>Trace Route</strong>
+    <pre>{}</pre> 
+  <strong>Whois Information</strong>
+	<pre>{}</pre>
+	<strong>DNS server record</strong>
+	<pre>{}</pre>
+	<strong><Nmap- running services/strong>
+	<pre>{}</pre>
+	<strong>Website on the same server</strong>
+	<pre>{}</pre>
+	<strong>Reverse IP Address</strong>
+	<pre>{}</pre>
+	<strong>Page Links</strong>
+	<pre>{}</pre><hr>
+	<center> All Right Reserved &copy; <strong>R3CON1Z3R</strong></center>
+ 
+</body>
+</html>
+    """.format(url,httpHeader(),traceRoute(),whoIs(),dns(),nmap(),findSharedServer(),reverseHackTarget(),pageLinks())	
+	return create
+# Saving the report
+def saveHTML():
+	saveFile = open(url + '.html', 'w')
+	saveFile.write(generateHTML())
+	saveFile.close()
+	print('{}[+] HTML Report Successfully Generated{}'.format(Y, C))
+	print('{}[+] File saved as {}{}.html{}'.format(Y, R, url, C))
+	print('{}[+] R3CON1Z3R Operation Completed!{}'.format(Y, W))
 
-	os.system("curl http://api.hackertarget.com/pagelinks/?q=" + url)
 def gaphy():
 	header()
-	httpHeader()
-	reverseHackTarget()
-	traceRoute()
-	nmap()
-	#reverseDns()
-	dns()
-	whoIs()
-	pageLinks()
+	saveHTML()
 
 
 if __name__ == '__main__': gaphy()
